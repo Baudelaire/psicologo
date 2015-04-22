@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    {% for evaluado in evaluados %}
+
+       <p><a href="{% url 'evaluacion_general' evaluado.id %}">{{ evaluado }}</a></p>
+    {% endfor %}
+</body>
+</html>
