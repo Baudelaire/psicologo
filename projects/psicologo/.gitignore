@@ -1,0 +1,6 @@
+.idea
+*.*~
+*.pyc
+staticfiles/*
+media/*
+websaravia/local_settings.py
