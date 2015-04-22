@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from class_based_auth_views.views import LoginView
 from django.contrib import messages
+from datetime import datetime
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
@@ -64,7 +65,8 @@ class HomeViewPersonal(TemplateView):
             for llave in llaves:
                 llave_c = llave
                 if llave == 'fecha':
-                    evaluado.fecha = self.request.POST[llave]
+                    print self.request.POST[llave]
+                    #evaluado.fecha = self.request.POST[llave]
                 if llave == 'comentarios':
                     evaluado.comentarios = self.request.POST[llave]
                 if llave != 'csrfmiddlewaretoken' and llave != 'fecha' and llave != 'comentarios':
@@ -86,4 +88,6 @@ class EvaluacionView(TemplateView):
         evaluador = usuario.evaluador.all().filter(evaluador=usuario)
         evaluacion = Evaluacion.objects.get(categoria=evaluado.categoria)
         preguntas = evaluacion.ev_pregunta.all()
-        return {'evaluado': evaluado, 'evaluador': evaluador, 'evaluacion': evaluacion, 'preguntas': preguntas}
+        fecha = datetime.now()
+        return {'evaluado': evaluado, 'evaluador': evaluador, 'evaluacion': evaluacion, 'preguntas': preguntas,
+                'fecha': fecha}
