@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse_lazy
+from unipath import Path
 
-__author__ = 'baudelaire'
 """
 Django settings for psicologo project.
 
@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = Path(__file__).ancestor(3)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -89,17 +88,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT=os.path.join(BASE_DIR,'staticfiles')
+STATIC_ROOT=BASE_DIR.child('static')
 
 MEDIA_URL='/media/'
 
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+MEDIA_ROOT=BASE_DIR.child('media')
 
 STATICFILES_DIRS=(
-    os.path.join(BASE_DIR,'static'),
+    BASE_DIR.child('static'),
 )
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), '../..', ( 'templates').replace('\\', '/')),
+    BASE_DIR.child('templates'),
 )
 LOGGING = {
     'version': 1,
