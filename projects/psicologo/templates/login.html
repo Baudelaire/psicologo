@@ -1,22 +1,65 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
-<head>
-    <title></title>
-</head>
-<body>
- <div class="container">
-					{% if messages %}
-					<ul>
-						{% for message in messages %}
-							<li>{{ message }}</li>
-						{% endfor %}
-					</ul>
-					{% endif %}
-					<form method='post'>
-						{% csrf_token %}
-						{{ form.as_p }}
-						<input class="btn btn-jumbo visible" type="submit" value="Ingresar"/>
-					</form>
-				</div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>Iniciar sesión -  Plan "Mas allá del Control" (CGR)</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="bookmark" href="favicon.ico" />
+        <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+        <style>
+            html {
+                position: relative;
+                min-height: 100%;
+            }
+            body {
+                background-color: #ED5565;
+                color: #FFF;
+            }
+            .box-login {
+                padding-top: 130px;
+                padding-top: 130px;
+                padding-bottom: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <a href="#"><div class="logo" ></div></a>
+                </div>
+            </div>
+        </div>
+        <div class="container box-login">
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form class="form-signin" method="post">
+                <h3 class="form-signin-heading">Plan "Mas allá del Control"</h3>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-lg btn-default btn-block" type="submit">Entrar</button>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+        {# footer #}
+        <footer class="site-footer login-footer">
+            <div class="container">
+                <div class="copyright clearfix text-center">
+                    <p><b>CGRP</b>&nbsp;&nbsp;&nbsp;&nbsp;<a href="ayuda.php">Ayuda</a>&nbsp;&bull;&nbsp;<a rel="external nofollow" target="_blank" href="http://www.contraloria.gob.pe/">Sitio web oficial</a></p>
+                    <p>© 2015 Contraloría General de la República del Perú , Sistema realizado para el Plan "Mas allá del Control".</p>
+                </div>
+            </div>
+        </footer>
+        {# Aqui nuevos JS #}
+    </body>
 </html>

@@ -18,4 +18,3 @@ admin.site.register(Evaluador)
 admin.site.register(Evaluado, EvaluadoAdmin)
 admin.site.register(Evaluacion, EvaluacionAdmin)
 admin.site.register(Pregunta, PreguntaAdmin)
-

@@ -88,18 +88,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT=BASE_DIR.child('static')
+MEDIA_URL = '/media/'
 
-MEDIA_URL='/media/'
+MEDIA_ROOT = BASE_DIR.child('media')
 
-MEDIA_ROOT=BASE_DIR.child('media')
-
-STATICFILES_DIRS=(
+STATICFILES_DIRS = (
     BASE_DIR.child('static'),
 )
 TEMPLATE_DIRS = (
     BASE_DIR.child('templates'),
 )
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
