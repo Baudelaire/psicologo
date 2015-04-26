@@ -39,7 +39,7 @@ class HomeViewPersonal(TemplateView):
     def get_context_data(self, **kwargs):
         if Group.objects.filter(user__in=(self.request.user,), name="evaluadores"):
             usuario = self.request.user
-            evaluador = usuario.evaluador.all().filter(evaluador=usuario)
+            evaluador = Evaluador.objects.get(evaluador=usuario)
             evaluados = Evaluado.objects.all().filter(evaluador=evaluador)
             return {'evaluados': evaluados, 'evaluador': evaluador}
 

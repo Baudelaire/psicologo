@@ -11,7 +11,7 @@ class Evaluador(models.Model):
     codigo = models.CharField(max_length=8)
 
     def __unicode__(self):
-        return '%s - %s - %s' % (self.nombres, self.apellido_paterno, self.apellido_materno)
+        return '%s %s %s' % (self.nombres, self.apellido_paterno, self.apellido_materno)
 
 
 class Evaluado(models.Model):
@@ -26,9 +26,10 @@ class Evaluado(models.Model):
     comentarios = models.TextField(blank=True, null=True)
     fecha = models.DateField(blank=True, null=True)
     activo = models.BooleanField(default=True)
+    estado = models.BooleanField(default = False, editable=False)
 
     def __unicode__(self):
-        return '%s - %s - %s' % (self.nombres, self.apellido_paterno, self.apellido_materno)
+        return '%s %s %s' % (self.nombres, self.apellido_paterno, self.apellido_materno)
 
 
 class Evaluacion(models.Model):
