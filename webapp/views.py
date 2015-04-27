@@ -22,8 +22,11 @@ class MyLoginView(LoginView):
     success_url = "/home/"
 
     def form_valid(self, form):
-        if Group.objects.filter(Q(user__username__in=(form.cleaned_data["username"],), name="evaluadores") | Q(
-                user__username__in=(form.cleaned_data["username"],), name="administradores")):
+        if Group.objects.filter(
+            Q(user__username__in=(form.cleaned_data["username"],),
+              name="evaluadores") |
+            Q(user__username__in=(form.cleaned_data["username"],),
+              name="administradores")):
             return super(MyLoginView, self).form_valid(form)
         messages.warning(self.request, "No perteneces a ningun grupo")
         return self.form_invalid(form)
@@ -31,17 +34,31 @@ class MyLoginView(LoginView):
 
 class HomeViewPersonal(TemplateView):
     def get_template_names(self):
-        if Group.objects.filter(user__in=(self.request.user,), name="evaluadores"):
+        if Group.objects.filter(user__in=(self.request.user,),
+                                name="evaluadores"):
             return ['evaluador.html']
-        elif Group.objects.filter(user__in=(self.request.user,), name="administradores"):
+        elif Group.objects.filter(user__in=(self.request.user,),
+                                  name="administradores"):
             return ['home_administrador.html']
 
     def get_context_data(self, **kwargs):
-        if Group.objects.filter(user__in=(self.request.user,), name="evaluadores"):
+        if Group.objects.filter(user__in=(self.request.user,),
+                                name="evaluadores"):
             usuario = self.request.user
             evaluador = Evaluador.objects.get(evaluador=usuario)
             evaluados = Evaluado.objects.all().filter(evaluador=evaluador)
-            return {'evaluados': evaluados, 'evaluador': evaluador}
+            cantidadEvaluados = Evaluado.objects.all().filter(
+                                                        evaluador=evaluador,
+                                                        estado=True
+                                                        ).count()
+            cantidadPorEvaluar = Evaluado.objects.all().filter(
+                                                        evaluador=evaluador,
+                                                        estado=False
+                                                        ).count()
+            contexto = {'evaluados': evaluados, 'evaluador': evaluador,
+                        'cantidadEvaluados': cantidadEvaluados,
+                        'cantidadPorEvaluar': cantidadPorEvaluar}
+            return contexto
 
         elif Group.objects.filter(user__in=(self.request.user,), name="jefes"):
             jefe = self.request.user
@@ -56,7 +73,7 @@ class HomeViewPersonal(TemplateView):
         evaluador = Evaluador.objects.all().get(evaluador=usuario)
         evaluados = Evaluado.objects.all().filter(evaluador=evaluador)
         id = self.kwargs['id']
-        #usuario.is_active = False
+        # usuario.is_active = False
         llaves = self.request.POST.keys()
         evaluado = Evaluado.objects.all().get(id=id)
         evaluacion = Evaluacion.objects.all().get(categoria=evaluado.categoria)
@@ -66,16 +83,29 @@ class HomeViewPersonal(TemplateView):
                 llave_c = llave
                 if llave == 'fecha':
                     print self.request.POST[llave]
-                    #evaluado.fecha = self.request.POST[llave]
+                    # evaluado.fecha = self.request.POST[llave]
                 if llave == 'comentarios':
                     evaluado.comentarios = self.request.POST[llave]
-                if llave != 'csrfmiddlewaretoken' and llave != 'fecha' and llave != 'comentarios':
+                if llave != 'csrfmiddlewaretoken' and llave != 'fecha'and llave != 'comentarios':
                     llave_c = int(llave)
                 if llave_c == pregunta.id:
-                    Respuesta.objects.get_or_create(evaluado=evaluado, pregunta=pregunta, evaluador=evaluador,
-                                                    alternativa=self.request.POST[llave])
+                    Respuesta.objects.get_or_create(evaluado=evaluado,
+                                                    pregunta=pregunta,
+                                                    evaluador=evaluador,
+                                                    alternativa=self.request.POST[llave]
+                                                    )
+        evaluado.estado = True
         evaluado.save()
-        return render(self.request, template_name, {'evaluados': evaluados, 'evaluador': evaluador})
+        cantidadEvaluados = Evaluado.objects.all().filter(evaluador=evaluador,
+                                                          estado=True
+                                                          ).count()
+        cantidadPorEvaluar = Evaluado.objects.all().filter(evaluador=evaluador,
+                                                           estado=False
+                                                           ).count()
+        contexto = {'evaluados': evaluados, 'evaluador': evaluador,
+                    'cantidadEvaluados': cantidadEvaluados,
+                    'cantidadPorEvaluar': cantidadPorEvaluar}
+        return render(self.request, template_name, contexto)
 
 
 class EvaluacionView(TemplateView):
@@ -89,5 +119,7 @@ class EvaluacionView(TemplateView):
         evaluacion = Evaluacion.objects.get(categoria=evaluado.categoria)
         preguntas = evaluacion.ev_pregunta.all()
         fecha = datetime.now()
-        return {'evaluado': evaluado, 'evaluador': evaluador, 'evaluacion': evaluacion, 'preguntas': preguntas,
-                'fecha': fecha}
+        contexto = {'evaluado': evaluado, 'evaluador': evaluador,
+                    'evaluacion': evaluacion, 'preguntas': preguntas,
+                    'fecha': fecha}
+        return contexto

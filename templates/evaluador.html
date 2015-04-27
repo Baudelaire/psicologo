@@ -56,8 +56,8 @@
                     <ul class="list-group panel">
                         <li class="list-group-item"><i class="glyphicon glyphicon-align-justify"></i><b>PANEL</b></li>
                         <li class="list-group-item">
-                            <p>Encuestados: <b>4</b></p>
-                            <p>Faltan por encuestar: 6</p>
+                            <p>Encuestados: <b>{{ cantidadEvaluados }}</b></p>
+                            <p>Faltan por encuestar: <b>{{ cantidadPorEvaluar }}</b></p>
                         </li>
                         <li>
                             <a title="¿Necesitas ayuda con el uso del sistema?" href="#demo4" class="list-group-item " data-toggle="collapse">Ayuda<span class="glyphicon glyphicon-chevron-right"></span></a>
@@ -98,30 +98,11 @@
                                             {% if evaluado.estado %}
                                                 <td class="success">ENCUESTADO <i class="fa fa-check"></i></td>
                                             {% else %}
-                                                <td class="danger">NO ENCUESTADO (<a href="#">Encuestar</a>) </td>
+                                                <td class="danger">NO ENCUESTADO (<a href="{% url 'evaluacion_general' evaluado.categoria %}">Encuestar</a>) </td>
                                             {% endif %}
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                                <nav>
-                                    <ul class="pagination">
-                                        <li class="disabled">
-                                            <a href="#" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li ><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li>
-                                            <a href="#" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
                             </div>
                         </div>
                     </div>
