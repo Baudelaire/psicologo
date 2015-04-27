@@ -23,10 +23,10 @@ class MyLoginView(LoginView):
 
     def form_valid(self, form):
         if Group.objects.filter(
-            Q(user__username__in=(form.cleaned_data["username"],),
-              name="evaluadores") |
-            Q(user__username__in=(form.cleaned_data["username"],),
-              name="administradores")):
+                        Q(user__username__in=(form.cleaned_data["username"],),
+                          name="evaluadores") |
+                        Q(user__username__in=(form.cleaned_data["username"],),
+                          name="administradores")):
             return super(MyLoginView, self).form_valid(form)
         messages.warning(self.request, "No perteneces a ningun grupo")
         return self.form_invalid(form)
@@ -34,11 +34,9 @@ class MyLoginView(LoginView):
 
 class HomeViewPersonal(TemplateView):
     def get_template_names(self):
-        if Group.objects.filter(user__in=(self.request.user,),
-                                name="evaluadores"):
+        if Group.objects.filter(user__in=(self.request.user,),name="evaluadores"):
             return ['evaluador.html']
-        elif Group.objects.filter(user__in=(self.request.user,),
-                                  name="administradores"):
+        elif Group.objects.filter(user__in=(self.request.user,),name="administradores"):
             return ['home_administrador.html']
 
     def get_context_data(self, **kwargs):
@@ -47,14 +45,8 @@ class HomeViewPersonal(TemplateView):
             usuario = self.request.user
             evaluador = Evaluador.objects.get(evaluador=usuario)
             evaluados = Evaluado.objects.all().filter(evaluador=evaluador)
-            cantidadEvaluados = Evaluado.objects.all().filter(
-                                                        evaluador=evaluador,
-                                                        estado=True
-                                                        ).count()
-            cantidadPorEvaluar = Evaluado.objects.all().filter(
-                                                        evaluador=evaluador,
-                                                        estado=False
-                                                        ).count()
+            cantidadEvaluados = Evaluado.objects.all().filter(evaluador=evaluador, estado=True).count()
+            cantidadPorEvaluar = Evaluado.objects.all().filter(evaluador=evaluador, estado=False).count()
             contexto = {'evaluados': evaluados, 'evaluador': evaluador,
                         'cantidadEvaluados': cantidadEvaluados,
                         'cantidadPorEvaluar': cantidadPorEvaluar}
@@ -86,22 +78,22 @@ class HomeViewPersonal(TemplateView):
                     # evaluado.fecha = self.request.POST[llave]
                 if llave == 'comentarios':
                     evaluado.comentarios = self.request.POST[llave]
-                if llave != 'csrfmiddlewaretoken' and llave != 'fecha'and llave != 'comentarios':
+                if llave != 'csrfmiddlewaretoken' and llave != 'fecha' and llave != 'comentarios':
                     llave_c = int(llave)
                 if llave_c == pregunta.id:
                     Respuesta.objects.get_or_create(evaluado=evaluado,
                                                     pregunta=pregunta,
                                                     evaluador=evaluador,
                                                     alternativa=self.request.POST[llave]
-                                                    )
+                    )
         evaluado.estado = True
         evaluado.save()
         cantidadEvaluados = Evaluado.objects.all().filter(evaluador=evaluador,
                                                           estado=True
-                                                          ).count()
+        ).count()
         cantidadPorEvaluar = Evaluado.objects.all().filter(evaluador=evaluador,
                                                            estado=False
-                                                           ).count()
+        ).count()
         contexto = {'evaluados': evaluados, 'evaluador': evaluador,
                     'cantidadEvaluados': cantidadEvaluados,
                     'cantidadPorEvaluar': cantidadPorEvaluar}

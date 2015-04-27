@@ -3,5 +3,5 @@
 *.pyc
 staticfiles/*
 media/*
-websaravia/local_settings.py
-venv/
+psicologo/settings/local.py
+venvpsicologo/

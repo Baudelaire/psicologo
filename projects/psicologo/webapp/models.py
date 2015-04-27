@@ -22,10 +22,10 @@ class Evaluado(models.Model):
     codigo = models.CharField(max_length=8)
     evaluador = models.ForeignKey(Evaluador, related_name='evaluadores')
     CATEGORIA_CHOICES = (
-                            ("categoria-1", "categoria 1"),
-                            ("categoria-2", "categoria 2"),
-                            ("categoria-3", "categoria 3"),
-                            ("categoria-4", "categoria 4"),
+        ("categoria-1", "categoria 1"),
+        ("categoria-2", "categoria 2"),
+        ("categoria-3", "categoria 3"),
+        ("categoria-4", "categoria 4"),
     )
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
     comentarios = models.TextField(blank=True, null=True)
@@ -40,10 +40,10 @@ class Evaluado(models.Model):
 
 class Evaluacion(models.Model):
     CATEGORIA_CHOICES = (
-                            ("categoria-1", "categoria 1"),
-                            ("categoria-2", "categoria 2"),
-                            ("categoria-3", "categoria 3"),
-                            ("categoria-4", "categoria 4"),
+        ("categoria-1", "categoria 1"),
+        ("categoria-2", "categoria 2"),
+        ("categoria-3", "categoria 3"),
+        ("categoria-4", "categoria 4"),
     )
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
     instruciones = models.TextField()
@@ -56,13 +56,13 @@ class Pregunta(models.Model):
     evaluacion = models.ForeignKey(Evaluacion, related_name='ev_pregunta')
     AREA_CHOICES = (("CUMPLIMIENTO DE PLAZOS", "CUMPLIMIENTO DE PLAZOS"),
                     ("CALIDAD DE PROCESOS Y PRODUCTOS",
-                        "CALIDAD DE PROCESOS Y PRODUCTOS"),
+                     "CALIDAD DE PROCESOS Y PRODUCTOS"),
                     ("IMPACTO O RELEVANCIA", "IMPACTO O RELEVANCIA"))
     area = models.CharField(max_length=35, choices=AREA_CHOICES)
     enunciado = models.TextField()
     ALTERNATIVA_CHOICES = (
-                            ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4")
-                        )
+        ("1", "1"), ("2", "2"), ("3", "3"), ("4", "4")
+    )
     # QUITAR DEL ADMIN CON ALTERNATIVAS Y RESPUESTA
     respuesta = models.CharField(blank=True, null=True,
                                  choices=ALTERNATIVA_CHOICES, max_length=1)
