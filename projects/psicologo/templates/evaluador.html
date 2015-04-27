@@ -1,0 +1,129 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Bienvenido al Plan "Mas allá del Control" - Contraloría General de la República</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="shortcut icon" href="favicon.ico" />
+        <link rel="bookmark" href="favicon.ico" />
+        <link rel="stylesheet" href="{% static 'css/estilos.css' %}" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+    </head>
+
+
+
+
+
+
+
+
+
+
+
+
+    <body>
+        {# header #}
+        <nav role="navigation" class="navbar navbar-custom">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand"><img src="{% static 'img/logo_contraloria_mini.png' %}"></a>
+                </div>
+                <div id="bs-content-row-navbar-collapse-5" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#">Inicio</a></li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{ user.username }}<b class="caret"></b></a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li class="dropdown-header">{{ evaluador.nombres }} {{ evaluador.apellido_paterno }} {{ evaluador.apellido_materno }}</li>
+                                <li class="divider"></li>
+                                <li class="disabled"><a href="#">Salir</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {# fin header #}
+
+
+        <div class="container-fluid">
+            {# cuerpo #}
+            <div class="row row-offcanvas row-offcanvas-left">
+                <div class="col-xs-6 col-sm-3 sidebar-offcanvas" role="navigation">
+                    <ul class="list-group panel">
+                        <li class="list-group-item"><i class="glyphicon glyphicon-align-justify"></i><b>PANEL</b></li>
+                        <li class="list-group-item">
+                            <p>Encuestados: <b>{{ cantidadEvaluados }}</b></p>
+                            <p>Faltan por encuestar: <b>{{ cantidadPorEvaluar }}</b></p>
+                        </li>
+                        <li>
+                            <a title="¿Necesitas ayuda con el uso del sistema?" href="#demo4" class="list-group-item " data-toggle="collapse">Ayuda<span class="glyphicon glyphicon-chevron-right"></span></a>
+                            <li class="collapse" id="demo4">
+                                <a href="" class="list-group-item">Preguntas Frecuentes</a>
+                                <a href="" class="list-group-item">Subitem 2</a>
+                                <a href="" class="list-group-item">Subitem 3</a>
+                             </li>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-9 content">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar hidden-md hidden-lg"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a><b>Encuestador: {{ evaluador.nombres }} {{ evaluador.apellido_paterno }} {{ evaluador.apellido_materno }}</b></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="content-row">
+                                <p>Estás en el sistema de encuestas del Plan "Mas allá del Control", debajo encontrarás la lista de personas a encuestar, designadas previamente para cada encuestador.</p>
+                                <h2 class="content-row-title">Lista de encuestados</h2>
+                                <table class="table  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombres</th>
+                                            <th>Apellidos</th>
+                                            <th>DNI</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for evaluado in evaluados %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ evaluado.nombres}}</td>
+                                            <td>{{ evaluado.apellido_paterno }} {{ evaluado.apellido_materno }}</td>
+                                            <td>{{ evaluado.codigo }}</td>
+                                            {% if evaluado.estado %}
+                                                <td class="success">ENCUESTADO <i class="fa fa-check"></i></td>
+                                            {% else %}
+                                                <td class="danger">NO ENCUESTADO (<a href="{% url 'evaluacion_general' evaluado.categoria %}">Encuestar</a>) </td>
+                                            {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# fin cuerpo #}
+
+        {# pie de pagina #}
+        <div class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="copyright clearfix">
+                            <p><b>CGRP</b>&nbsp;&nbsp;&nbsp;&nbsp;<a href="ayuda.php">Ayuda</a>&nbsp;&bull;&nbsp;<a href="index.html" rel="external nofollow" target="_blank" href="http://www.contraloria.gob.pe/">Sitio web oficial</a></p>
+                            <p>© 2015 Contraloría General de la República del Perú , Sistema realizado para el Plan "Mas allá del Control".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# fin pie de pagina #}
+    </body>
+</html>

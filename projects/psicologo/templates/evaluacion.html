@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<form action="{% url 'finalizado_general' evaluado.id %}" method="post">
+
+    {% csrf_token %}
+    <table border="2">
+        <tr>
+            <td colspan="6"><p align=center>Encuesta de evaluacion de la {{ evaluacion.categoria }}</p></td>
+        </tr>
+
+        <tr>
+            <td>nombres y apellidos del evaluado
+            </td>
+            <td colspan="5">{{ evaluado.nombres }} {{ evaluado.apellido_paterno }} {{ evaluado.apellido_materno }}</td>
+        </tr>
+
+        <tr>
+            <td>categoria de premiacion</td>
+            <td colspan="5">{{ evaluado.categoria }}</td>
+        </tr>
+
+        <tr>
+            <td>codigo del evaluado</td>
+            <td colspan="5">{{ evaluado.codigo }}"</td>
+        </tr>
+        {% for eva in evaluador %}
+            <tr>
+                <td>nombres y apellidos del
+                    evaluador
+                </td>
+                <td colspan="5">{{ eva.nombres }} {{ eva.apellido_paterno }} {{ eva.apellido_materno }}</td>
+            </tr>
+            <tr>
+                <td>codigo de evaluador</td>
+                <td colspan="5">{{ eva.codigo }}</td>
+            </tr>
+            <tr>
+                <td>fecha</td>
+                <td colspan="5"><input type="datetime" name="fecha" value="{{ fecha }}"></td>
+            </tr>
+            <tr>
+                <td colspan="6">Este instrumento permitirá conocer su percepción al cumplimiento de los plazos, los
+                    resultados de impacto o relevancia alcanzados y la calidad de los informes o entregables del
+                    colaborador evaluado. Le agradecemos seguir con las siguientes instrucciones:
+                    <p>1.-Completar todos los datos correspondientes al evaluado y al evaluador.</p>
+
+                    <p>2.-Seleccionar la escala de evaluación que mejor describa la frecuencia con que el colaborador
+                        ejecuta el comportamiento descrito.</p>
+
+                    <p>3.-Emita la calificación con la mayor objetividad posible.</p>
+
+                    <p>4.-Verifique que haya contestado todas las afirmaciones.</p>
+
+                    <p>5.-Los resultados de esta encuesta es de caracter confidencial y utilizados únicamente para los
+                        fines del Plan de reconocimiento.</p></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2"><p align=center>comportamientos</p></td>
+            <td>excede las expectativas</td>
+            <td>frecuentemente cumple</td>
+            <td>algunas veces cumple</td>
+            <td>nunca cumple</td>
+        </tr>
+        {% for pregunta in preguntas %}
+            <tr>
+                <td>{{ pregunta.area }}</td>
+                <td>{{ pregunta.enunciado }}</td>
+                <td><input type="radio" name="{{ pregunta.id }}" value="1">
+                </td>
+                >
+                <td><input type="radio" name="{{ pregunta.id }}" value="2">
+                </td>
+
+                <td><input type="radio" name="{{ pregunta.id }}" value="3">
+                </td>
+
+                <td><input type="radio" name="{{ pregunta.id }}" value="4">
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <label>comentarios</label>
+    <input type="text" name="comentarios" size="150">
+    <br><br>
+    <input type="submit" value="enviar resultados">
+</form>
+</body>
+</html>
