@@ -22,10 +22,10 @@ class Evaluado(models.Model):
     codigo = models.CharField(max_length=8)
     evaluador = models.ForeignKey(Evaluador, related_name='evaluadores')
     CATEGORIA_CHOICES = (
-                            ("1", "categoria 1"),
-                            ("2", "categoria 2"),
-                            ("3", "categoria 3"),
-                            ("4", "categoria 4"),
+                            ("categoria-1", "categoria 1"),
+                            ("categoria-2", "categoria 2"),
+                            ("categoria-3", "categoria 3"),
+                            ("categoria-4", "categoria 4"),
     )
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
     comentarios = models.TextField(blank=True, null=True)
@@ -40,10 +40,10 @@ class Evaluado(models.Model):
 
 class Evaluacion(models.Model):
     CATEGORIA_CHOICES = (
-                            ("1", "categoria 1"),
-                            ("2", "categoria 2"),
-                            ("3", "categoria 3"),
-                            ("4", "categoria 4"),
+                            ("categoria-1", "categoria 1"),
+                            ("categoria-2", "categoria 2"),
+                            ("categoria-3", "categoria 3"),
+                            ("categoria-4", "categoria 4"),
     )
     categoria = models.CharField(max_length=20, choices=CATEGORIA_CHOICES)
     instruciones = models.TextField()
